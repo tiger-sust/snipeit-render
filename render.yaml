@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: snipeit
+    env: docker
+    plan: free
+    image:
+      url: ghcr.io/snipe/snipe-it:latest
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://snipeit.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+
+databases:
+  - name: snipeit-db
+    plan: free
