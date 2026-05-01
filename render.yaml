@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: snipeit
+    env: docker
+    plan: free
+    image:
+      url: ghcr.io/snipe/snipe-it:latest
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        fromService:
+          type: web
+          name: snipeit
+          property: host
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: snipeit-db
+          property: host
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_DATABASE
+        fromDatabase:
+          name: snipeit-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: snipeit-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: snipeit-db
+          property: password
+
+databases:
+  - name: snipeit-db
+    plan: free
